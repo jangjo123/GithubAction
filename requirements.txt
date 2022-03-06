@@ -1,3 +1,2 @@
-# 수정
 beautifulsoup4
 requests
