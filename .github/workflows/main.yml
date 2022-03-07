@@ -2,20 +2,20 @@ name: helloGithubAction
 
 on:
     schedule:
-        - cron: "*/5 * * * *"
-    
+    - cron: '*/5 * * * *'
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-      with:
-        # 개인 토큰을 사용할 것인지 말 것인지
-        persist-credentials: false 
-    - name: 1. pip 업그래이드
+    - name: 1. 파일 목록 출력
+      run: ls
+    - name: 2. 설치되어 있는 패키지 확인
+      run: pip list
+    - name: 3. pip 업그래이드
       run: python -m pip install --upgrade pip
-    - name: 2. 환경 설정
+    - name: 4. 환경 설정
       run: pip install -r requirements.txt
-    - name: 3. 파이썬 실행
+    - name: 5. 파이썬 실행
       run: python test.py
