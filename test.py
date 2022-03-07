@@ -43,4 +43,4 @@ def 기사크롤링(검색, page, 파일이름):
 기사크롤링('ukraine damage situation', 3, 'English_UkraineDamageSituationNewsData')
 기사크롤링('우크라이나 피해 상황', 3, 'Korean_UkraineDamageSituationNewsData')
 
-
+print("")
