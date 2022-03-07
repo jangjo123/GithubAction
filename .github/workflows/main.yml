@@ -1,8 +1,8 @@
 name: helloGithubAction
 
-on: [push]
-#     schedule:
-#       - cron: "*/10* * * *"
+on:
+    schedule:
+        - cron: "*/5 * * * *"
     
 
 jobs:
@@ -19,14 +19,3 @@ jobs:
       run: pip install -r requirements.txt
     - name: 3. 파이썬 실행
       run: python test.py
-    - name: Commit files
-      run: |
-        git config --local user.email "cjkh1324@naver.com"
-        git config --local user.name "jangjo123"
-        git add .
-        git commit -m "Run crawler and update current data"
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        # branch: "master"
-        github_token: ${{ secrets.GITHUB_TOKEN }}
