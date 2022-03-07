@@ -1,50 +1,54 @@
-import requests 
-import re
+import requests
 from bs4 import BeautifulSoup
+
+response = requests.get("http://paullab.synology.me/stock.html")
+
+response.encoding = 'utf-8'
+html = response.text
+
+soup = BeautifulSoup(html, 'html.parser')
+
+oneStep = soup.select(".main")[2]
+
+twoStep = oneStep.select("tbody > tr")[1:]
+
+날짜 = []
+종가 = []
+전일비 = []
+거래량 = []
+
+for i in twoStep:
+  날짜.append(i.select("td")[0].text)
+  종가.append(int(i.select("td")[1].text.replace(',', '')))
+  전일비.append(int(i.select("td")[2].text.replace(',', '')))
+  거래량.append(int(i.select("td")[6].text.replace(',', '')))
+
+  L = []
+
+for i in range(len(날짜)):
+  L.append({
+      '날짜': 날짜[i],
+      '종가': 종가[i],
+      '전일비': 전일비[i],
+      '거래량': 거래량[i],
+  })
+
 import csv
 import json
 
-User_Agent_head = {"User-Agent" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36"}
+# 파일을 한 번 쓴다.
+with open('data.js', 'w', encoding = "UTF-8-sig") as f_write:
+  json.dump(L, f_write, ensure_ascii = False, indent = 4)
 
-L = []
-
-def createJs(title): # json 파일로 변경
-  with open('{}.js.'.format(title), 'w', encoding = "UTF-8-sig") as f_write:
-    json.dump(L, f_write, ensure_ascii = False, indent = 4)
-
-  data = ""
-  with open('{}.js.'.format(title), "r", encoding = "UTF-8-sig") as f:
+# 파일을 다시 읽는다.
+data = ""
+with open('data.js', "r", encoding = "UTF-8-sig") as f:
+  line = f.readline()
+  while line:
+    data += line
     line = f.readline()
-    while line:
-      data += line
-      line = f.readline()
 
-
-def 기사크롤링(검색, page):
-
-    start = 0
-    for i in range(1, page+1):
-        # start = 0은 1page 10은 2page 20은 3page
-        url = 'https://www.google.com/search?q={}&hl=ko&tbm=nws&ei=4eMlYunIJNyUr7wPnrm0oAo&start={}&sa=N&ved=2ahUKEwipvcTD6rP2AhVcyosBHZ4cDaQ4KBDy0wN6BAgBED8&biw=1920&bih=937&dpr=1'.format(검색, start)
-        res = requests.get(url, headers = User_Agent_head)
-        res.raise_for_status()
-        soup = BeautifulSoup(res.text, "html.parser")
-        news = soup.find_all("g-card", attrs = {"class" : "ftSUBd"})
-        #print(news)
-        start += 10
-        print(i, "page" '\n')
-        print(len(news))
-        번수 = 1
-        for 뉴스 in news:
-            제목 = 뉴스.find("div", attrs = {"class" : "mCBkyc y355M JQe2Ld nDgy9d"}).get_text()
-            링크 = 뉴스.find("a", {"class" : "WlydOe"})["href"]
-            print(str(번수)+"번째 기사" '\n' , 제목, '\n', 링크)
-            print(제목)
-            L.append({'제목': 제목, '링크' : 링크} )
-
-            print("-" * 100, '\n')
-            #print(뉴스.get_text())
-            번수 += 1
-    createJs('UkraineDamageSituation')
-
-기사크롤링('ukraine damage situation', 3)
+# 파일에 변수명을 추가하여 다시 쓴다.
+final_data = f"var data = {data};"
+with open('data.js', "w",  encoding = "UTF-8-sig") as f_write:
+  f_write.write(final_data)
