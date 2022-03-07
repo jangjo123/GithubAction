@@ -21,6 +21,7 @@ def createJs(title): # json 파일로 변경
 
 
 def 기사크롤링(검색, page, 파일이름):
+
     start = 0
     for i in range(1, page+1):
         # start = 0은 1page 10은 2page 20은 3page
@@ -39,8 +40,12 @@ def 기사크롤링(검색, page, 파일이름):
             L.append({'제목': 제목, '링크' : 링크} )
             번수 += 1
     createJs(파일이름)
+    
 
 기사크롤링('ukraine damage situation', 3, 'English_UkraineDamageSituationNewsData')
+L = []
 기사크롤링('우크라이나 피해 상황', 3, 'Korean_UkraineDamageSituationNewsData')
 
-print("Test")
+Print("Test")
+
+
