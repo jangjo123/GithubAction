@@ -40,11 +40,11 @@ def 기사크롤링(검색, page, 파일이름):
             L.append({'제목': 제목, '링크' : 링크} )
             번수 += 1
     createJs(파일이름)
-    
 
+    
 기사크롤링('ukraine damage situation', 3, 'English_UkraineDamageSituationNewsData')
-L = []
-기사크롤링('우크라이나 피해 상황', 3, 'Korean_UkraineDamageSituationNewsData')
+# L = []
+# 기사크롤링('우크라이나 피해 상황', 3, 'Korean_UkraineDamageSituationNewsData')
 
 print("Test")
 
