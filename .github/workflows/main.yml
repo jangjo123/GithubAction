@@ -5,7 +5,7 @@ on:
     - cron: '*/5 * * * *'
 
 jobs:
-  build:
+  build: 
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -19,3 +19,4 @@ jobs:
       run: pip install -r requirements.txt
     - name: 5. 파이썬 실행
       run: python test.py
+# Test
